@@ -46,9 +46,19 @@ threejs_controls_resources = wr.ResourceGroup(
     group=resources
 )
 threejs_controls_resources.add(wr.ScriptResource(
+    name='three-acrballcontrols-js',
+    depends='three-js',
+    resource='ArcballControls.js'
+))
+threejs_controls_resources.add(wr.ScriptResource(
     name='three-orbitcontrols-js',
     depends='three-js',
     resource='OrbitControls.js'
+))
+threejs_controls_resources.add(wr.ScriptResource(
+    name='three-transformcontrols-js',
+    depends='three-js',
+    resource='TransformControls.js'
 ))
 
 
@@ -56,4 +66,6 @@ def configure_resources(settings):
     set_resource_include(settings, 'three-js', 'authenticated')
     set_resource_include(settings, 'three-objloader-js', 'authenticated')
     set_resource_include(settings, 'three-mtlloader-js', 'authenticated')
+    set_resource_include(settings, 'three-acrballcontrols-js', 'authenticated')
     set_resource_include(settings, 'three-orbitcontrols-js', 'authenticated')
+    set_resource_include(settings, 'three-transformcontrols-js', 'authenticated')
