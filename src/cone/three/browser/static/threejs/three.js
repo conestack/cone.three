@@ -9,7 +9,7 @@
 	(global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.THREE = {}));
 })(this, (function (exports) { 'use strict';
 
-	const REVISION = '143dev';
+	const REVISION = '142';
 	const MOUSE = {
 		LEFT: 0,
 		MIDDLE: 1,
@@ -571,7 +571,12 @@
 			return this;
 		}
 
-		add(v) {
+		add(v, w) {
+			if (w !== undefined) {
+				console.warn('THREE.Vector2: .add() now only accepts one argument. Use .addVectors( a, b ) instead.');
+				return this.addVectors(v, w);
+			}
+
 			this.x += v.x;
 			this.y += v.y;
 			return this;
@@ -595,7 +600,12 @@
 			return this;
 		}
 
-		sub(v) {
+		sub(v, w) {
+			if (w !== undefined) {
+				console.warn('THREE.Vector2: .sub() now only accepts one argument. Use .subVectors( a, b ) instead.');
+				return this.subVectors(v, w);
+			}
+
 			this.x -= v.x;
 			this.y -= v.y;
 			return this;
@@ -780,7 +790,11 @@
 			return array;
 		}
 
-		fromBufferAttribute(attribute, index) {
+		fromBufferAttribute(attribute, index, offset) {
+			if (offset !== undefined) {
+				console.warn('THREE.Vector2: offset has been removed from .fromBufferAttribute().');
+			}
+
 			this.x = attribute.getX(index);
 			this.y = attribute.getY(index);
 			return this;
@@ -813,6 +827,10 @@
 		constructor() {
 			Matrix3.prototype.isMatrix3 = true;
 			this.elements = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+
+			if (arguments.length > 0) {
+				console.error('THREE.Matrix3: the constructor no longer reads arguments. use .set() instead.');
+			}
 		}
 
 		set(n11, n12, n13, n21, n22, n23, n31, n32, n33) {
@@ -2215,7 +2233,12 @@
 			return this;
 		}
 
-		add(v) {
+		add(v, w) {
+			if (w !== undefined) {
+				console.warn('THREE.Vector4: .add() now only accepts one argument. Use .addVectors( a, b ) instead.');
+				return this.addVectors(v, w);
+			}
+
 			this.x += v.x;
 			this.y += v.y;
 			this.z += v.z;
@@ -2247,7 +2270,12 @@
 			return this;
 		}
 
-		sub(v) {
+		sub(v, w) {
+			if (w !== undefined) {
+				console.warn('THREE.Vector4: .sub() now only accepts one argument. Use .subVectors( a, b ) instead.');
+				return this.subVectors(v, w);
+			}
+
 			this.x -= v.x;
 			this.y -= v.y;
 			this.z -= v.z;
@@ -2552,7 +2580,11 @@
 			return array;
 		}
 
-		fromBufferAttribute(attribute, index) {
+		fromBufferAttribute(attribute, index, offset) {
+			if (offset !== undefined) {
+				console.warn('THREE.Vector4: offset has been removed from .fromBufferAttribute().');
+			}
+
 			this.x = attribute.getX(index);
 			this.y = attribute.getY(index);
 			this.z = attribute.getZ(index);
@@ -2785,6 +2817,11 @@
 			this._y = y;
 			this._z = z;
 			this._w = w;
+		}
+
+		static slerp(qa, qb, qm, t) {
+			console.warn('THREE.Quaternion: Static .slerp() has been deprecated. Use qm.slerpQuaternions( qa, qb, t ) instead.');
+			return qm.slerpQuaternions(qa, qb, t);
 		}
 
 		static slerpFlat(dst, dstOffset, src0, srcOffset0, src1, srcOffset1, t) {
@@ -3157,7 +3194,12 @@
 			return this;
 		}
 
-		multiply(q) {
+		multiply(q, p) {
+			if (p !== undefined) {
+				console.warn('THREE.Quaternion: .multiply() now only accepts one argument. Use .multiplyQuaternions( a, b ) instead.');
+				return this.multiplyQuaternions(q, p);
+			}
+
 			return this.multiplyQuaternions(this, q);
 		}
 
@@ -3392,7 +3434,12 @@
 			return this;
 		}
 
-		add(v) {
+		add(v, w) {
+			if (w !== undefined) {
+				console.warn('THREE.Vector3: .add() now only accepts one argument. Use .addVectors( a, b ) instead.');
+				return this.addVectors(v, w);
+			}
+
 			this.x += v.x;
 			this.y += v.y;
 			this.z += v.z;
@@ -3420,7 +3467,12 @@
 			return this;
 		}
 
-		sub(v) {
+		sub(v, w) {
+			if (w !== undefined) {
+				console.warn('THREE.Vector3: .sub() now only accepts one argument. Use .subVectors( a, b ) instead.');
+				return this.subVectors(v, w);
+			}
+
 			this.x -= v.x;
 			this.y -= v.y;
 			this.z -= v.z;
@@ -3441,7 +3493,12 @@
 			return this;
 		}
 
-		multiply(v) {
+		multiply(v, w) {
+			if (w !== undefined) {
+				console.warn('THREE.Vector3: .multiply() now only accepts one argument. Use .multiplyVectors( a, b ) instead.');
+				return this.multiplyVectors(v, w);
+			}
+
 			this.x *= v.x;
 			this.y *= v.y;
 			this.z *= v.z;
@@ -3463,6 +3520,10 @@
 		}
 
 		applyEuler(euler) {
+			if (!(euler && euler.isEuler)) {
+				console.error('THREE.Vector3: .applyEuler() now expects an Euler rotation rather than a Vector3 and order.');
+			}
+
 			return this.applyQuaternion(_quaternion$4.setFromEuler(euler));
 		}
 
@@ -3657,7 +3718,12 @@
 			return this;
 		}
 
-		cross(v) {
+		cross(v, w) {
+			if (w !== undefined) {
+				console.warn('THREE.Vector3: .cross() now only accepts one argument. Use .crossVectors( a, b ) instead.');
+				return this.crossVectors(v, w);
+			}
+
 			return this.crossVectors(this, v);
 		}
 
@@ -3790,7 +3856,11 @@
 			return array;
 		}
 
-		fromBufferAttribute(attribute, index) {
+		fromBufferAttribute(attribute, index, offset) {
+			if (offset !== undefined) {
+				console.warn('THREE.Vector3: offset has been removed from .fromBufferAttribute().');
+			}
+
 			this.x = attribute.getX(index);
 			this.y = attribute.getY(index);
 			this.z = attribute.getZ(index);
@@ -4744,6 +4814,10 @@
 		constructor() {
 			Matrix4.prototype.isMatrix4 = true;
 			this.elements = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+
+			if (arguments.length > 0) {
+				console.error('THREE.Matrix4: the constructor no longer reads arguments. use .set() instead.');
+			}
 		}
 
 		set(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
@@ -4856,6 +4930,10 @@
 		}
 
 		makeRotationFromEuler(euler) {
+			if (!(euler && euler.isEuler)) {
+				console.error('THREE.Matrix4: .makeRotationFromEuler() now expects a Euler rotation rather than a Vector3 and order.');
+			}
+
 			const te = this.elements;
 			const x = euler.x,
 						y = euler.y,
@@ -5012,7 +5090,12 @@
 			return this;
 		}
 
-		multiply(m) {
+		multiply(m, n) {
+			if (n !== undefined) {
+				console.warn('THREE.Matrix4: .multiply() now only accepts one argument. Use .multiplyMatrices( a, b ) instead.');
+				return this.multiplyMatrices(m, n);
+			}
+
 			return this.multiplyMatrices(this, m);
 		}
 
@@ -5360,6 +5443,10 @@
 		}
 
 		makePerspective(left, right, top, bottom, near, far) {
+			if (far === undefined) {
+				console.warn('THREE.Matrix4: .makePerspective() has been redefined and has a new signature. Please check the docs.');
+			}
+
 			const te = this.elements;
 			const x = 2 * near / (right - left);
 			const y = 2 * near / (top - bottom);
@@ -6260,7 +6347,7 @@
 					}
 				}
 
-				if (this.environment && this.environment.isTexture && this.environment.isRenderTargetTexture !== true) {
+				if (this.environment && this.environment.isTexture) {
 					object.environment = this.environment.toJSON(meta).uuid;
 				}
 			} else if (this.isMesh || this.isLine || this.isPoints) {
@@ -8686,15 +8773,6 @@
 		}
 
 		return merged;
-	}
-	function cloneUniformsGroups(src) {
-		const dst = [];
-
-		for (let u = 0; u < src.length; u++) {
-			dst.push(src[u].clone());
-		}
-
-		return dst;
 	} // Legacy
 
 	const UniformsUtils = {
@@ -8713,7 +8791,6 @@
 			this.type = 'ShaderMaterial';
 			this.defines = {};
 			this.uniforms = {};
-			this.uniformsGroups = [];
 			this.vertexShader = default_vertex;
 			this.fragmentShader = default_fragment;
 			this.linewidth = 1;
@@ -8760,7 +8837,6 @@
 			this.fragmentShader = source.fragmentShader;
 			this.vertexShader = source.vertexShader;
 			this.uniforms = cloneUniforms(source.uniforms);
-			this.uniformsGroups = cloneUniformsGroups(source.uniformsGroups);
 			this.defines = Object.assign({}, source.defines);
 			this.wireframe = source.wireframe;
 			this.wireframeLinewidth = source.wireframeLinewidth;
@@ -9779,7 +9855,7 @@
 
 	var color_vertex = "#if defined( USE_COLOR_ALPHA )\n\tvColor = vec4( 1.0 );\n#elif defined( USE_COLOR ) || defined( USE_INSTANCING_COLOR )\n\tvColor = vec3( 1.0 );\n#endif\n#ifdef USE_COLOR\n\tvColor *= color;\n#endif\n#ifdef USE_INSTANCING_COLOR\n\tvColor.xyz *= instanceColor.xyz;\n#endif";
 
-	var common = "#define PI 3.141592653589793\n#define PI2 6.283185307179586\n#define PI_HALF 1.5707963267948966\n#define RECIPROCAL_PI 0.3183098861837907\n#define RECIPROCAL_PI2 0.15915494309189535\n#define EPSILON 1e-6\n#ifndef saturate\n#define saturate( a ) clamp( a, 0.0, 1.0 )\n#endif\n#define whiteComplement( a ) ( 1.0 - saturate( a ) )\nfloat pow2( const in float x ) { return x*x; }\nvec3 pow2( const in vec3 x ) { return x*x; }\nfloat pow3( const in float x ) { return x*x*x; }\nfloat pow4( const in float x ) { float x2 = x*x; return x2*x2; }\nfloat max3( const in vec3 v ) { return max( max( v.x, v.y ), v.z ); }\nfloat average( const in vec3 v ) { return dot( v, vec3( 0.3333333 ) ); }\nhighp float rand( const in vec2 uv ) {\n\tconst highp float a = 12.9898, b = 78.233, c = 43758.5453;\n\thighp float dt = dot( uv.xy, vec2( a,b ) ), sn = mod( dt, PI );\n\treturn fract( sin( sn ) * c );\n}\n#ifdef HIGH_PRECISION\n\tfloat precisionSafeLength( vec3 v ) { return length( v ); }\n#else\n\tfloat precisionSafeLength( vec3 v ) {\n\t\tfloat maxComponent = max3( abs( v ) );\n\t\treturn length( v / maxComponent ) * maxComponent;\n\t}\n#endif\nstruct IncidentLight {\n\tvec3 color;\n\tvec3 direction;\n\tbool visible;\n};\nstruct ReflectedLight {\n\tvec3 directDiffuse;\n\tvec3 directSpecular;\n\tvec3 indirectDiffuse;\n\tvec3 indirectSpecular;\n};\nstruct GeometricContext {\n\tvec3 position;\n\tvec3 normal;\n\tvec3 viewDir;\n#ifdef USE_CLEARCOAT\n\tvec3 clearcoatNormal;\n#endif\n};\nvec3 transformDirection( in vec3 dir, in mat4 matrix ) {\n\treturn normalize( ( matrix * vec4( dir, 0.0 ) ).xyz );\n}\nvec3 inverseTransformDirection( in vec3 dir, in mat4 matrix ) {\n\treturn normalize( ( vec4( dir, 0.0 ) * matrix ).xyz );\n}\nmat3 transposeMat3( const in mat3 m ) {\n\tmat3 tmp;\n\ttmp[ 0 ] = vec3( m[ 0 ].x, m[ 1 ].x, m[ 2 ].x );\n\ttmp[ 1 ] = vec3( m[ 0 ].y, m[ 1 ].y, m[ 2 ].y );\n\ttmp[ 2 ] = vec3( m[ 0 ].z, m[ 1 ].z, m[ 2 ].z );\n\treturn tmp;\n}\nfloat luminance( const in vec3 rgb ) {\n\tconst vec3 weights = vec3( 0.2126729, 0.7151522, 0.0721750 );\n\treturn dot( weights, rgb );\n}\nbool isPerspectiveMatrix( mat4 m ) {\n\treturn m[ 2 ][ 3 ] == - 1.0;\n}\nvec2 equirectUv( in vec3 dir ) {\n\tfloat u = atan( dir.z, dir.x ) * RECIPROCAL_PI2 + 0.5;\n\tfloat v = asin( clamp( dir.y, - 1.0, 1.0 ) ) * RECIPROCAL_PI + 0.5;\n\treturn vec2( u, v );\n}";
+	var common = "#define PI 3.141592653589793\n#define PI2 6.283185307179586\n#define PI_HALF 1.5707963267948966\n#define RECIPROCAL_PI 0.3183098861837907\n#define RECIPROCAL_PI2 0.15915494309189535\n#define EPSILON 1e-6\n#ifndef saturate\n#define saturate( a ) clamp( a, 0.0, 1.0 )\n#endif\n#define whiteComplement( a ) ( 1.0 - saturate( a ) )\nfloat pow2( const in float x ) { return x*x; }\nvec3 pow2( const in vec3 x ) { return x*x; }\nfloat pow3( const in float x ) { return x*x*x; }\nfloat pow4( const in float x ) { float x2 = x*x; return x2*x2; }\nfloat max3( const in vec3 v ) { return max( max( v.x, v.y ), v.z ); }\nfloat average( const in vec3 color ) { return dot( color, vec3( 0.3333 ) ); }\nhighp float rand( const in vec2 uv ) {\n\tconst highp float a = 12.9898, b = 78.233, c = 43758.5453;\n\thighp float dt = dot( uv.xy, vec2( a,b ) ), sn = mod( dt, PI );\n\treturn fract( sin( sn ) * c );\n}\n#ifdef HIGH_PRECISION\n\tfloat precisionSafeLength( vec3 v ) { return length( v ); }\n#else\n\tfloat precisionSafeLength( vec3 v ) {\n\t\tfloat maxComponent = max3( abs( v ) );\n\t\treturn length( v / maxComponent ) * maxComponent;\n\t}\n#endif\nstruct IncidentLight {\n\tvec3 color;\n\tvec3 direction;\n\tbool visible;\n};\nstruct ReflectedLight {\n\tvec3 directDiffuse;\n\tvec3 directSpecular;\n\tvec3 indirectDiffuse;\n\tvec3 indirectSpecular;\n};\nstruct GeometricContext {\n\tvec3 position;\n\tvec3 normal;\n\tvec3 viewDir;\n#ifdef USE_CLEARCOAT\n\tvec3 clearcoatNormal;\n#endif\n};\nvec3 transformDirection( in vec3 dir, in mat4 matrix ) {\n\treturn normalize( ( matrix * vec4( dir, 0.0 ) ).xyz );\n}\nvec3 inverseTransformDirection( in vec3 dir, in mat4 matrix ) {\n\treturn normalize( ( vec4( dir, 0.0 ) * matrix ).xyz );\n}\nmat3 transposeMat3( const in mat3 m ) {\n\tmat3 tmp;\n\ttmp[ 0 ] = vec3( m[ 0 ].x, m[ 1 ].x, m[ 2 ].x );\n\ttmp[ 1 ] = vec3( m[ 0 ].y, m[ 1 ].y, m[ 2 ].y );\n\ttmp[ 2 ] = vec3( m[ 0 ].z, m[ 1 ].z, m[ 2 ].z );\n\treturn tmp;\n}\nfloat linearToRelativeLuminance( const in vec3 color ) {\n\tvec3 weights = vec3( 0.2126, 0.7152, 0.0722 );\n\treturn dot( weights, color.rgb );\n}\nbool isPerspectiveMatrix( mat4 m ) {\n\treturn m[ 2 ][ 3 ] == - 1.0;\n}\nvec2 equirectUv( in vec3 dir ) {\n\tfloat u = atan( dir.z, dir.x ) * RECIPROCAL_PI2 + 0.5;\n\tfloat v = asin( clamp( dir.y, - 1.0, 1.0 ) ) * RECIPROCAL_PI + 0.5;\n\treturn vec2( u, v );\n}";
 
 	var cube_uv_reflection_fragment = "#ifdef ENVMAP_TYPE_CUBE_UV\n\t#define cubeUV_minMipLevel 4.0\n\t#define cubeUV_minTileSize 16.0\n\tfloat getFace( vec3 direction ) {\n\t\tvec3 absDirection = abs( direction );\n\t\tfloat face = - 1.0;\n\t\tif ( absDirection.x > absDirection.z ) {\n\t\t\tif ( absDirection.x > absDirection.y )\n\t\t\t\tface = direction.x > 0.0 ? 0.0 : 3.0;\n\t\t\telse\n\t\t\t\tface = direction.y > 0.0 ? 1.0 : 4.0;\n\t\t} else {\n\t\t\tif ( absDirection.z > absDirection.y )\n\t\t\t\tface = direction.z > 0.0 ? 2.0 : 5.0;\n\t\t\telse\n\t\t\t\tface = direction.y > 0.0 ? 1.0 : 4.0;\n\t\t}\n\t\treturn face;\n\t}\n\tvec2 getUV( vec3 direction, float face ) {\n\t\tvec2 uv;\n\t\tif ( face == 0.0 ) {\n\t\t\tuv = vec2( direction.z, direction.y ) / abs( direction.x );\n\t\t} else if ( face == 1.0 ) {\n\t\t\tuv = vec2( - direction.x, - direction.z ) / abs( direction.y );\n\t\t} else if ( face == 2.0 ) {\n\t\t\tuv = vec2( - direction.x, direction.y ) / abs( direction.z );\n\t\t} else if ( face == 3.0 ) {\n\t\t\tuv = vec2( - direction.z, direction.y ) / abs( direction.x );\n\t\t} else if ( face == 4.0 ) {\n\t\t\tuv = vec2( - direction.x, direction.z ) / abs( direction.y );\n\t\t} else {\n\t\t\tuv = vec2( direction.x, direction.y ) / abs( direction.z );\n\t\t}\n\t\treturn 0.5 * ( uv + 1.0 );\n\t}\n\tvec3 bilinearCubeUV( sampler2D envMap, vec3 direction, float mipInt ) {\n\t\tfloat face = getFace( direction );\n\t\tfloat filterInt = max( cubeUV_minMipLevel - mipInt, 0.0 );\n\t\tmipInt = max( mipInt, cubeUV_minMipLevel );\n\t\tfloat faceSize = exp2( mipInt );\n\t\tvec2 uv = getUV( direction, face ) * ( faceSize - 2.0 ) + 1.0;\n\t\tif ( face > 2.0 ) {\n\t\t\tuv.y += faceSize;\n\t\t\tface -= 3.0;\n\t\t}\n\t\tuv.x += face * faceSize;\n\t\tuv.x += filterInt * 3.0 * cubeUV_minTileSize;\n\t\tuv.y += 4.0 * ( exp2( CUBEUV_MAX_MIP ) - faceSize );\n\t\tuv.x *= CUBEUV_TEXEL_WIDTH;\n\t\tuv.y *= CUBEUV_TEXEL_HEIGHT;\n\t\t#ifdef texture2DGradEXT\n\t\t\treturn texture2DGradEXT( envMap, uv, vec2( 0.0 ), vec2( 0.0 ) ).rgb;\n\t\t#else\n\t\t\treturn texture2D( envMap, uv ).rgb;\n\t\t#endif\n\t}\n\t#define r0 1.0\n\t#define v0 0.339\n\t#define m0 - 2.0\n\t#define r1 0.8\n\t#define v1 0.276\n\t#define m1 - 1.0\n\t#define r4 0.4\n\t#define v4 0.046\n\t#define m4 2.0\n\t#define r5 0.305\n\t#define v5 0.016\n\t#define m5 3.0\n\t#define r6 0.21\n\t#define v6 0.0038\n\t#define m6 4.0\n\tfloat roughnessToMip( float roughness ) {\n\t\tfloat mip = 0.0;\n\t\tif ( roughness >= r1 ) {\n\t\t\tmip = ( r0 - roughness ) * ( m1 - m0 ) / ( r0 - r1 ) + m0;\n\t\t} else if ( roughness >= r4 ) {\n\t\t\tmip = ( r1 - roughness ) * ( m4 - m1 ) / ( r1 - r4 ) + m1;\n\t\t} else if ( roughness >= r5 ) {\n\t\t\tmip = ( r4 - roughness ) * ( m5 - m4 ) / ( r4 - r5 ) + m4;\n\t\t} else if ( roughness >= r6 ) {\n\t\t\tmip = ( r5 - roughness ) * ( m6 - m5 ) / ( r5 - r6 ) + m5;\n\t\t} else {\n\t\t\tmip = - 2.0 * log2( 1.16 * roughness );\t\t}\n\t\treturn mip;\n\t}\n\tvec4 textureCubeUV( sampler2D envMap, vec3 sampleDir, float roughness ) {\n\t\tfloat mip = clamp( roughnessToMip( roughness ), m0, CUBEUV_MAX_MIP );\n\t\tfloat mipF = fract( mip );\n\t\tfloat mipInt = floor( mip );\n\t\tvec3 color0 = bilinearCubeUV( envMap, sampleDir, mipInt );\n\t\tif ( mipF == 0.0 ) {\n\t\t\treturn vec4( color0, 1.0 );\n\t\t} else {\n\t\t\tvec3 color1 = bilinearCubeUV( envMap, sampleDir, mipInt + 1.0 );\n\t\t\treturn vec4( mix( color0, color1, mipF ), 1.0 );\n\t\t}\n\t}\n#endif";
 
@@ -15891,8 +15967,6 @@
 		const colorBuffer = new ColorBuffer();
 		const depthBuffer = new DepthBuffer();
 		const stencilBuffer = new StencilBuffer();
-		const uboBindings = new WeakMap();
-		const uboProgamMap = new WeakMap();
 		let enabledCapabilities = {};
 		let currentBoundFramebuffers = {};
 		let currentDrawbuffers = new WeakMap();
@@ -16391,33 +16465,6 @@
 				gl.viewport(viewport.x, viewport.y, viewport.z, viewport.w);
 				currentViewport.copy(viewport);
 			}
-		}
-
-		function updateUBOMapping(uniformsGroup, program) {
-			let mapping = uboProgamMap.get(program);
-
-			if (mapping === undefined) {
-				mapping = new WeakMap();
-				uboProgamMap.set(program, mapping);
-			}
-
-			let blockIndex = mapping.get(uniformsGroup);
-
-			if (blockIndex === undefined) {
-				blockIndex = gl.getUniformBlockIndex(program, uniformsGroup.name);
-				mapping.set(uniformsGroup, blockIndex);
-			}
-		}
-
-		function uniformBlockBinding(uniformsGroup, program) {
-			const mapping = uboProgamMap.get(program);
-			const blockIndex = mapping.get(uniformsGroup);
-
-			if (uboBindings.get(uniformsGroup) !== blockIndex) {
-				// bind shader specific block index to global block point
-				gl.uniformBlockBinding(program, blockIndex, uniformsGroup.__bindingPointIndex);
-				uboBindings.set(uniformsGroup, blockIndex);
-			}
 		} //
 
 
@@ -16510,8 +16557,6 @@
 			compressedTexImage2D: compressedTexImage2D,
 			texImage2D: texImage2D,
 			texImage3D: texImage3D,
-			updateUBOMapping: updateUBOMapping,
-			uniformBlockBinding: uniformBlockBinding,
 			texStorage2D: texStorage2D,
 			texStorage3D: texStorage3D,
 			texSubImage2D: texSubImage2D,
@@ -19229,249 +19274,6 @@
 		};
 	}
 
-	function WebGLUniformsGroups(gl, info, capabilities, state) {
-		let buffers = {};
-		let updateList = {};
-		let allocatedBindingPoints = [];
-		const maxBindingPoints = capabilities.isWebGL2 ? gl.getParameter(gl.MAX_UNIFORM_BUFFER_BINDINGS) : 0; // binding points are global whereas block indices are per shader program
-
-		function bind(uniformsGroup, program) {
-			const webglProgram = program.program;
-			state.uniformBlockBinding(uniformsGroup, webglProgram);
-		}
-
-		function update(uniformsGroup, program) {
-			let buffer = buffers[uniformsGroup.id];
-
-			if (buffer === undefined) {
-				prepareUniformsGroup(uniformsGroup);
-				buffer = createBuffer(uniformsGroup);
-				buffers[uniformsGroup.id] = buffer;
-				uniformsGroup.addEventListener('dispose', onUniformsGroupsDispose);
-			} // ensure to update the binding points/block indices mapping for this program
-
-
-			const webglProgram = program.program;
-			state.updateUBOMapping(uniformsGroup, webglProgram); // update UBO once per frame
-
-			const frame = info.render.frame;
-
-			if (updateList[uniformsGroup.id] !== frame) {
-				updateBufferData(uniformsGroup);
-				updateList[uniformsGroup.id] = frame;
-			}
-		}
-
-		function createBuffer(uniformsGroup) {
-			// the setup of an UBO is independent of a particular shader program but global
-			const bindingPointIndex = allocateBindingPointIndex();
-			uniformsGroup.__bindingPointIndex = bindingPointIndex;
-			const buffer = gl.createBuffer();
-			const size = uniformsGroup.__size;
-			const usage = uniformsGroup.usage;
-			gl.bindBuffer(gl.UNIFORM_BUFFER, buffer);
-			gl.bufferData(gl.UNIFORM_BUFFER, size, usage);
-			gl.bindBuffer(gl.UNIFORM_BUFFER, null);
-			gl.bindBufferBase(gl.UNIFORM_BUFFER, bindingPointIndex, buffer);
-			return buffer;
-		}
-
-		function allocateBindingPointIndex() {
-			for (let i = 0; i < maxBindingPoints; i++) {
-				if (allocatedBindingPoints.indexOf(i) === -1) {
-					allocatedBindingPoints.push(i);
-					return i;
-				}
-			}
-
-			console.error('THREE.WebGLRenderer: Maximum number of simultaneously usable uniforms groups reached.');
-			return 0;
-		}
-
-		function updateBufferData(uniformsGroup) {
-			const buffer = buffers[uniformsGroup.id];
-			const uniforms = uniformsGroup.uniforms;
-			const cache = uniformsGroup.__cache;
-			gl.bindBuffer(gl.UNIFORM_BUFFER, buffer);
-
-			for (let i = 0, il = uniforms.length; i < il; i++) {
-				const uniform = uniforms[i]; // partly update the buffer if necessary
-
-				if (hasUniformChanged(uniform, i, cache) === true) {
-					const value = uniform.value;
-					const offset = uniform.__offset;
-
-					if (typeof value === 'number') {
-						uniform.__data[0] = value;
-						gl.bufferSubData(gl.UNIFORM_BUFFER, offset, uniform.__data);
-					} else {
-						if (uniform.value.isMatrix3) {
-							// manually converting 3x3 to 3x4
-							uniform.__data[0] = uniform.value.elements[0];
-							uniform.__data[1] = uniform.value.elements[1];
-							uniform.__data[2] = uniform.value.elements[2];
-							uniform.__data[3] = uniform.value.elements[0];
-							uniform.__data[4] = uniform.value.elements[3];
-							uniform.__data[5] = uniform.value.elements[4];
-							uniform.__data[6] = uniform.value.elements[5];
-							uniform.__data[7] = uniform.value.elements[0];
-							uniform.__data[8] = uniform.value.elements[6];
-							uniform.__data[9] = uniform.value.elements[7];
-							uniform.__data[10] = uniform.value.elements[8];
-							uniform.__data[11] = uniform.value.elements[0];
-						} else {
-							value.toArray(uniform.__data);
-						}
-
-						gl.bufferSubData(gl.UNIFORM_BUFFER, offset, uniform.__data);
-					}
-				}
-			}
-
-			gl.bindBuffer(gl.UNIFORM_BUFFER, null);
-		}
-
-		function hasUniformChanged(uniform, index, cache) {
-			const value = uniform.value;
-
-			if (cache[index] === undefined) {
-				// cache entry does not exist so far
-				if (typeof value === 'number') {
-					cache[index] = value;
-				} else {
-					cache[index] = value.clone();
-				}
-
-				return true;
-			} else {
-				// compare current value with cached entry
-				if (typeof value === 'number') {
-					if (cache[index] !== value) {
-						cache[index] = value;
-						return true;
-					}
-				} else {
-					const cachedObject = cache[index];
-
-					if (cachedObject.equals(value) === false) {
-						cachedObject.copy(value);
-						return true;
-					}
-				}
-			}
-
-			return false;
-		}
-
-		function prepareUniformsGroup(uniformsGroup) {
-			// determine total buffer size according to the STD140 layout
-			// Hint: STD140 is the only supported layout in WebGL 2
-			const uniforms = uniformsGroup.uniforms;
-			let offset = 0; // global buffer offset in bytes
-
-			const chunkSize = 16; // size of a chunk in bytes
-
-			let chunkOffset = 0; // offset within a single chunk in bytes
-
-			for (let i = 0, l = uniforms.length; i < l; i++) {
-				const uniform = uniforms[i];
-				const info = getUniformSize(uniform); // the following two properties will be used for partial buffer updates
-
-				uniform.__data = new Float32Array(info.storage / Float32Array.BYTES_PER_ELEMENT);
-				uniform.__offset = offset; //
-
-				if (i > 0) {
-					chunkOffset = offset % chunkSize;
-					const remainingSizeInChunk = chunkSize - chunkOffset; // check for chunk overflow
-
-					if (chunkOffset !== 0 && remainingSizeInChunk - info.boundary < 0) {
-						// add padding and adjust offset
-						offset += chunkSize - chunkOffset;
-						uniform.__offset = offset;
-					}
-				}
-
-				offset += info.storage;
-			} // ensure correct final padding
-
-
-			chunkOffset = offset % chunkSize;
-			if (chunkOffset > 0) offset += chunkSize - chunkOffset; //
-
-			uniformsGroup.__size = offset;
-			uniformsGroup.__cache = {};
-			return this;
-		}
-
-		function getUniformSize(uniform) {
-			const value = uniform.value;
-			const info = {
-				boundary: 0,
-				// bytes
-				storage: 0 // bytes
-
-			}; // determine sizes according to STD140
-
-			if (typeof value === 'number') {
-				// float/int
-				info.boundary = 4;
-				info.storage = 4;
-			} else if (value.isVector2) {
-				// vec2
-				info.boundary = 8;
-				info.storage = 8;
-			} else if (value.isVector3 || value.isColor) {
-				// vec3
-				info.boundary = 16;
-				info.storage = 12; // evil: vec3 must start on a 16-byte boundary but it only consumes 12 bytes
-			} else if (value.isVector4) {
-				// vec4
-				info.boundary = 16;
-				info.storage = 16;
-			} else if (value.isMatrix3) {
-				// mat3 (in STD140 a 3x3 matrix is represented as 3x4)
-				info.boundary = 48;
-				info.storage = 48;
-			} else if (value.isMatrix4) {
-				// mat4
-				info.boundary = 64;
-				info.storage = 64;
-			} else if (value.isTexture) {
-				console.warn('THREE.WebGLRenderer: Texture samplers can not be part of an uniforms group.');
-			} else {
-				console.warn('THREE.WebGLRenderer: Unsupported uniform value type.', value);
-			}
-
-			return info;
-		}
-
-		function onUniformsGroupsDispose(event) {
-			const uniformsGroup = event.target;
-			uniformsGroup.removeEventListener('dispose', onUniformsGroupsDispose);
-			const index = allocatedBindingPoints.indexOf(uniformsGroup.__bindingPointIndex);
-			allocatedBindingPoints.splice(index, 1);
-			gl.deleteBuffer(buffers[uniformsGroup.id]);
-			delete buffers[uniformsGroup.id];
-			delete updateList[uniformsGroup.id];
-		}
-
-		function dispose() {
-			for (const id in buffers) {
-				gl.deleteBuffer(buffers[id]);
-			}
-
-			allocatedBindingPoints = [];
-			buffers = {};
-			updateList = {};
-		}
-
-		return {
-			bind: bind,
-			update: update,
-			dispose: dispose
-		};
-	}
-
 	function createCanvasElement() {
 		const canvas = createElementNS('canvas');
 		canvas.style.display = 'block';
@@ -19674,7 +19476,7 @@
 		let properties, textures, cubemaps, cubeuvmaps, attributes, geometries, objects;
 		let programCache, materials, renderLists, renderStates, clipping, shadowMap;
 		let background, morphtargets, bufferRenderer, indexedBufferRenderer;
-		let utils, bindingStates, uniformsGroups;
+		let utils, bindingStates;
 
 		function initGLContext() {
 			extensions = new WebGLExtensions(_gl);
@@ -19699,7 +19501,6 @@
 			renderStates = new WebGLRenderStates(extensions, capabilities);
 			background = new WebGLBackground(_this, cubemaps, state, objects, _alpha, _premultipliedAlpha);
 			shadowMap = new WebGLShadowMap(_this, objects, capabilities);
-			uniformsGroups = new WebGLUniformsGroups(_gl, info, capabilities, state);
 			bufferRenderer = new WebGLBufferRenderer(_gl, extensions, info, capabilities);
 			indexedBufferRenderer = new WebGLIndexedBufferRenderer(_gl, extensions, info, capabilities);
 			info.programs = programCache.programs;
@@ -19882,7 +19683,6 @@
 			cubeuvmaps.dispose();
 			objects.dispose();
 			bindingStates.dispose();
-			uniformsGroups.dispose();
 			programCache.dispose();
 			xr.dispose();
 			xr.removeEventListener('sessionstart', onXRSessionStart);
@@ -20646,22 +20446,7 @@
 
 			p_uniforms.setValue(_gl, 'modelViewMatrix', object.modelViewMatrix);
 			p_uniforms.setValue(_gl, 'normalMatrix', object.normalMatrix);
-			p_uniforms.setValue(_gl, 'modelMatrix', object.matrixWorld); // UBOs
-
-			if (material.isShaderMaterial || material.isRawShaderMaterial) {
-				const groups = material.uniformsGroups;
-
-				for (let i = 0, l = groups.length; i < l; i++) {
-					if (capabilities.isWebGL2) {
-						const group = groups[i];
-						uniformsGroups.update(group, program);
-						uniformsGroups.bind(group, program);
-					} else {
-						console.warn('THREE.WebGLRenderer: Uniform Buffer Objects can only be used with WebGL 2.');
-					}
-				}
-			}
-
+			p_uniforms.setValue(_gl, 'modelMatrix', object.matrixWorld);
 			return program;
 		} // If uniforms are marked as clean, they don't need to be loaded to the GPU.
 
@@ -23850,7 +23635,7 @@
 	}
 
 	class LatheGeometry extends BufferGeometry {
-		constructor(points = [new Vector2(0, -0.5), new Vector2(0.5, 0), new Vector2(0, 0.5)], segments = 12, phiStart = 0, phiLength = Math.PI * 2) {
+		constructor(points = [new Vector2(0, 0.5), new Vector2(0.5, 0), new Vector2(0, -0.5)], segments = 12, phiStart = 0, phiLength = Math.PI * 2) {
 			super();
 			this.type = 'LatheGeometry';
 			this.parameters = {
@@ -25334,14 +25119,20 @@
 
 				const curveSegments = options.curveSegments !== undefined ? options.curveSegments : 12;
 				const steps = options.steps !== undefined ? options.steps : 1;
-				const depth = options.depth !== undefined ? options.depth : 1;
+				let depth = options.depth !== undefined ? options.depth : 1;
 				let bevelEnabled = options.bevelEnabled !== undefined ? options.bevelEnabled : true;
 				let bevelThickness = options.bevelThickness !== undefined ? options.bevelThickness : 0.2;
 				let bevelSize = options.bevelSize !== undefined ? options.bevelSize : bevelThickness - 0.1;
 				let bevelOffset = options.bevelOffset !== undefined ? options.bevelOffset : 0;
 				let bevelSegments = options.bevelSegments !== undefined ? options.bevelSegments : 3;
 				const extrudePath = options.extrudePath;
-				const uvgen = options.UVGenerator !== undefined ? options.UVGenerator : WorldUVGenerator; //
+				const uvgen = options.UVGenerator !== undefined ? options.UVGenerator : WorldUVGenerator; // deprecated options
+
+				if (options.amount !== undefined) {
+					console.warn('THREE.ExtrudeBufferGeometry: amount has been renamed to depth.');
+					depth = options.amount;
+				} //
+
 
 				let extrudePts,
 						extrudeByPath = false;
@@ -27101,252 +26892,236 @@
 
 	}
 
-	function arraySlice(array, from, to) {
-		if (isTypedArray(array)) {
-			// in ios9 array.subarray(from, undefined) will return empty array
-			// but array.subarray(from) or array.subarray(from, len) is correct
-			return new array.constructor(array.subarray(from, to !== undefined ? to : array.length));
-		}
-
-		return array.slice(from, to);
-	} // converts an array to a specific type
-
-
-	function convertArray(array, type, forceClone) {
-		if (!array || // let 'undefined' and 'null' pass
-		!forceClone && array.constructor === type) return array;
-
-		if (typeof type.BYTES_PER_ELEMENT === 'number') {
-			return new type(array); // create typed array
-		}
-
-		return Array.prototype.slice.call(array); // create Array
-	}
-
-	function isTypedArray(object) {
-		return ArrayBuffer.isView(object) && !(object instanceof DataView);
-	} // returns an array by which times and values can be sorted
-
-
-	function getKeyframeOrder(times) {
-		function compareTime(i, j) {
-			return times[i] - times[j];
-		}
-
-		const n = times.length;
-		const result = new Array(n);
-
-		for (let i = 0; i !== n; ++i) result[i] = i;
-
-		result.sort(compareTime);
-		return result;
-	} // uses the array previously returned by 'getKeyframeOrder' to sort data
-
-
-	function sortedArray(values, stride, order) {
-		const nValues = values.length;
-		const result = new values.constructor(nValues);
-
-		for (let i = 0, dstOffset = 0; dstOffset !== nValues; ++i) {
-			const srcOffset = order[i] * stride;
-
-			for (let j = 0; j !== stride; ++j) {
-				result[dstOffset++] = values[srcOffset + j];
+	const AnimationUtils = {
+		// same as Array.prototype.slice, but also works on typed arrays
+		arraySlice: function (array, from, to) {
+			if (AnimationUtils.isTypedArray(array)) {
+				// in ios9 array.subarray(from, undefined) will return empty array
+				// but array.subarray(from) or array.subarray(from, len) is correct
+				return new array.constructor(array.subarray(from, to !== undefined ? to : array.length));
 			}
-		}
 
-		return result;
-	} // function for parsing AOS keyframe formats
+			return array.slice(from, to);
+		},
+		// converts an array to a specific type
+		convertArray: function (array, type, forceClone) {
+			if (!array || // let 'undefined' and 'null' pass
+			!forceClone && array.constructor === type) return array;
 
+			if (typeof type.BYTES_PER_ELEMENT === 'number') {
+				return new type(array); // create typed array
+			}
 
-	function flattenJSON(jsonKeys, times, values, valuePropertyName) {
-		let i = 1,
-				key = jsonKeys[0];
+			return Array.prototype.slice.call(array); // create Array
+		},
+		isTypedArray: function (object) {
+			return ArrayBuffer.isView(object) && !(object instanceof DataView);
+		},
+		// returns an array by which times and values can be sorted
+		getKeyframeOrder: function (times) {
+			function compareTime(i, j) {
+				return times[i] - times[j];
+			}
 
-		while (key !== undefined && key[valuePropertyName] === undefined) {
-			key = jsonKeys[i++];
-		}
+			const n = times.length;
+			const result = new Array(n);
 
-		if (key === undefined) return; // no data
+			for (let i = 0; i !== n; ++i) result[i] = i;
 
-		let value = key[valuePropertyName];
-		if (value === undefined) return; // no data
+			result.sort(compareTime);
+			return result;
+		},
+		// uses the array previously returned by 'getKeyframeOrder' to sort data
+		sortedArray: function (values, stride, order) {
+			const nValues = values.length;
+			const result = new values.constructor(nValues);
 
-		if (Array.isArray(value)) {
-			do {
-				value = key[valuePropertyName];
+			for (let i = 0, dstOffset = 0; dstOffset !== nValues; ++i) {
+				const srcOffset = order[i] * stride;
 
-				if (value !== undefined) {
-					times.push(key.time);
-					values.push.apply(values, value); // push all elements
+				for (let j = 0; j !== stride; ++j) {
+					result[dstOffset++] = values[srcOffset + j];
 				}
+			}
 
+			return result;
+		},
+		// function for parsing AOS keyframe formats
+		flattenJSON: function (jsonKeys, times, values, valuePropertyName) {
+			let i = 1,
+					key = jsonKeys[0];
+
+			while (key !== undefined && key[valuePropertyName] === undefined) {
 				key = jsonKeys[i++];
-			} while (key !== undefined);
-		} else if (value.toArray !== undefined) {
-			// ...assume THREE.Math-ish
-			do {
-				value = key[valuePropertyName];
-
-				if (value !== undefined) {
-					times.push(key.time);
-					value.toArray(values, values.length);
-				}
-
-				key = jsonKeys[i++];
-			} while (key !== undefined);
-		} else {
-			// otherwise push as-is
-			do {
-				value = key[valuePropertyName];
-
-				if (value !== undefined) {
-					times.push(key.time);
-					values.push(value);
-				}
-
-				key = jsonKeys[i++];
-			} while (key !== undefined);
-		}
-	}
-
-	function subclip(sourceClip, name, startFrame, endFrame, fps = 30) {
-		const clip = sourceClip.clone();
-		clip.name = name;
-		const tracks = [];
-
-		for (let i = 0; i < clip.tracks.length; ++i) {
-			const track = clip.tracks[i];
-			const valueSize = track.getValueSize();
-			const times = [];
-			const values = [];
-
-			for (let j = 0; j < track.times.length; ++j) {
-				const frame = track.times[j] * fps;
-				if (frame < startFrame || frame >= endFrame) continue;
-				times.push(track.times[j]);
-
-				for (let k = 0; k < valueSize; ++k) {
-					values.push(track.values[j * valueSize + k]);
-				}
 			}
 
-			if (times.length === 0) continue;
-			track.times = convertArray(times, track.times.constructor);
-			track.values = convertArray(values, track.values.constructor);
-			tracks.push(track);
-		}
+			if (key === undefined) return; // no data
 
-		clip.tracks = tracks; // find minimum .times value across all tracks in the trimmed clip
+			let value = key[valuePropertyName];
+			if (value === undefined) return; // no data
 
-		let minStartTime = Infinity;
+			if (Array.isArray(value)) {
+				do {
+					value = key[valuePropertyName];
 
-		for (let i = 0; i < clip.tracks.length; ++i) {
-			if (minStartTime > clip.tracks[i].times[0]) {
-				minStartTime = clip.tracks[i].times[0];
-			}
-		} // shift all tracks such that clip begins at t=0
+					if (value !== undefined) {
+						times.push(key.time);
+						values.push.apply(values, value); // push all elements
+					}
 
+					key = jsonKeys[i++];
+				} while (key !== undefined);
+			} else if (value.toArray !== undefined) {
+				// ...assume THREE.Math-ish
+				do {
+					value = key[valuePropertyName];
 
-		for (let i = 0; i < clip.tracks.length; ++i) {
-			clip.tracks[i].shift(-1 * minStartTime);
-		}
+					if (value !== undefined) {
+						times.push(key.time);
+						value.toArray(values, values.length);
+					}
 
-		clip.resetDuration();
-		return clip;
-	}
-
-	function makeClipAdditive(targetClip, referenceFrame = 0, referenceClip = targetClip, fps = 30) {
-		if (fps <= 0) fps = 30;
-		const numTracks = referenceClip.tracks.length;
-		const referenceTime = referenceFrame / fps; // Make each track's values relative to the values at the reference frame
-
-		for (let i = 0; i < numTracks; ++i) {
-			const referenceTrack = referenceClip.tracks[i];
-			const referenceTrackType = referenceTrack.ValueTypeName; // Skip this track if it's non-numeric
-
-			if (referenceTrackType === 'bool' || referenceTrackType === 'string') continue; // Find the track in the target clip whose name and type matches the reference track
-
-			const targetTrack = targetClip.tracks.find(function (track) {
-				return track.name === referenceTrack.name && track.ValueTypeName === referenceTrackType;
-			});
-			if (targetTrack === undefined) continue;
-			let referenceOffset = 0;
-			const referenceValueSize = referenceTrack.getValueSize();
-
-			if (referenceTrack.createInterpolant.isInterpolantFactoryMethodGLTFCubicSpline) {
-				referenceOffset = referenceValueSize / 3;
-			}
-
-			let targetOffset = 0;
-			const targetValueSize = targetTrack.getValueSize();
-
-			if (targetTrack.createInterpolant.isInterpolantFactoryMethodGLTFCubicSpline) {
-				targetOffset = targetValueSize / 3;
-			}
-
-			const lastIndex = referenceTrack.times.length - 1;
-			let referenceValue; // Find the value to subtract out of the track
-
-			if (referenceTime <= referenceTrack.times[0]) {
-				// Reference frame is earlier than the first keyframe, so just use the first keyframe
-				const startIndex = referenceOffset;
-				const endIndex = referenceValueSize - referenceOffset;
-				referenceValue = arraySlice(referenceTrack.values, startIndex, endIndex);
-			} else if (referenceTime >= referenceTrack.times[lastIndex]) {
-				// Reference frame is after the last keyframe, so just use the last keyframe
-				const startIndex = lastIndex * referenceValueSize + referenceOffset;
-				const endIndex = startIndex + referenceValueSize - referenceOffset;
-				referenceValue = arraySlice(referenceTrack.values, startIndex, endIndex);
+					key = jsonKeys[i++];
+				} while (key !== undefined);
 			} else {
-				// Interpolate to the reference value
-				const interpolant = referenceTrack.createInterpolant();
-				const startIndex = referenceOffset;
-				const endIndex = referenceValueSize - referenceOffset;
-				interpolant.evaluate(referenceTime);
-				referenceValue = arraySlice(interpolant.resultBuffer, startIndex, endIndex);
-			} // Conjugate the quaternion
+				// otherwise push as-is
+				do {
+					value = key[valuePropertyName];
+
+					if (value !== undefined) {
+						times.push(key.time);
+						values.push(value);
+					}
+
+					key = jsonKeys[i++];
+				} while (key !== undefined);
+			}
+		},
+		subclip: function (sourceClip, name, startFrame, endFrame, fps = 30) {
+			const clip = sourceClip.clone();
+			clip.name = name;
+			const tracks = [];
+
+			for (let i = 0; i < clip.tracks.length; ++i) {
+				const track = clip.tracks[i];
+				const valueSize = track.getValueSize();
+				const times = [];
+				const values = [];
+
+				for (let j = 0; j < track.times.length; ++j) {
+					const frame = track.times[j] * fps;
+					if (frame < startFrame || frame >= endFrame) continue;
+					times.push(track.times[j]);
+
+					for (let k = 0; k < valueSize; ++k) {
+						values.push(track.values[j * valueSize + k]);
+					}
+				}
+
+				if (times.length === 0) continue;
+				track.times = AnimationUtils.convertArray(times, track.times.constructor);
+				track.values = AnimationUtils.convertArray(values, track.values.constructor);
+				tracks.push(track);
+			}
+
+			clip.tracks = tracks; // find minimum .times value across all tracks in the trimmed clip
+
+			let minStartTime = Infinity;
+
+			for (let i = 0; i < clip.tracks.length; ++i) {
+				if (minStartTime > clip.tracks[i].times[0]) {
+					minStartTime = clip.tracks[i].times[0];
+				}
+			} // shift all tracks such that clip begins at t=0
 
 
-			if (referenceTrackType === 'quaternion') {
-				const referenceQuat = new Quaternion().fromArray(referenceValue).normalize().conjugate();
-				referenceQuat.toArray(referenceValue);
-			} // Subtract the reference value from all of the track values
+			for (let i = 0; i < clip.tracks.length; ++i) {
+				clip.tracks[i].shift(-1 * minStartTime);
+			}
 
+			clip.resetDuration();
+			return clip;
+		},
+		makeClipAdditive: function (targetClip, referenceFrame = 0, referenceClip = targetClip, fps = 30) {
+			if (fps <= 0) fps = 30;
+			const numTracks = referenceClip.tracks.length;
+			const referenceTime = referenceFrame / fps; // Make each track's values relative to the values at the reference frame
 
-			const numTimes = targetTrack.times.length;
+			for (let i = 0; i < numTracks; ++i) {
+				const referenceTrack = referenceClip.tracks[i];
+				const referenceTrackType = referenceTrack.ValueTypeName; // Skip this track if it's non-numeric
 
-			for (let j = 0; j < numTimes; ++j) {
-				const valueStart = j * targetValueSize + targetOffset;
+				if (referenceTrackType === 'bool' || referenceTrackType === 'string') continue; // Find the track in the target clip whose name and type matches the reference track
+
+				const targetTrack = targetClip.tracks.find(function (track) {
+					return track.name === referenceTrack.name && track.ValueTypeName === referenceTrackType;
+				});
+				if (targetTrack === undefined) continue;
+				let referenceOffset = 0;
+				const referenceValueSize = referenceTrack.getValueSize();
+
+				if (referenceTrack.createInterpolant.isInterpolantFactoryMethodGLTFCubicSpline) {
+					referenceOffset = referenceValueSize / 3;
+				}
+
+				let targetOffset = 0;
+				const targetValueSize = targetTrack.getValueSize();
+
+				if (targetTrack.createInterpolant.isInterpolantFactoryMethodGLTFCubicSpline) {
+					targetOffset = targetValueSize / 3;
+				}
+
+				const lastIndex = referenceTrack.times.length - 1;
+				let referenceValue; // Find the value to subtract out of the track
+
+				if (referenceTime <= referenceTrack.times[0]) {
+					// Reference frame is earlier than the first keyframe, so just use the first keyframe
+					const startIndex = referenceOffset;
+					const endIndex = referenceValueSize - referenceOffset;
+					referenceValue = AnimationUtils.arraySlice(referenceTrack.values, startIndex, endIndex);
+				} else if (referenceTime >= referenceTrack.times[lastIndex]) {
+					// Reference frame is after the last keyframe, so just use the last keyframe
+					const startIndex = lastIndex * referenceValueSize + referenceOffset;
+					const endIndex = startIndex + referenceValueSize - referenceOffset;
+					referenceValue = AnimationUtils.arraySlice(referenceTrack.values, startIndex, endIndex);
+				} else {
+					// Interpolate to the reference value
+					const interpolant = referenceTrack.createInterpolant();
+					const startIndex = referenceOffset;
+					const endIndex = referenceValueSize - referenceOffset;
+					interpolant.evaluate(referenceTime);
+					referenceValue = AnimationUtils.arraySlice(interpolant.resultBuffer, startIndex, endIndex);
+				} // Conjugate the quaternion
+
 
 				if (referenceTrackType === 'quaternion') {
-					// Multiply the conjugate for quaternion track types
-					Quaternion.multiplyQuaternionsFlat(targetTrack.values, valueStart, referenceValue, 0, targetTrack.values, valueStart);
-				} else {
-					const valueEnd = targetValueSize - targetOffset * 2; // Subtract each value for all other numeric track types
+					const referenceQuat = new Quaternion().fromArray(referenceValue).normalize().conjugate();
+					referenceQuat.toArray(referenceValue);
+				} // Subtract the reference value from all of the track values
 
-					for (let k = 0; k < valueEnd; ++k) {
-						targetTrack.values[valueStart + k] -= referenceValue[k];
+
+				const numTimes = targetTrack.times.length;
+
+				for (let j = 0; j < numTimes; ++j) {
+					const valueStart = j * targetValueSize + targetOffset;
+
+					if (referenceTrackType === 'quaternion') {
+						// Multiply the conjugate for quaternion track types
+						Quaternion.multiplyQuaternionsFlat(targetTrack.values, valueStart, referenceValue, 0, targetTrack.values, valueStart);
+					} else {
+						const valueEnd = targetValueSize - targetOffset * 2; // Subtract each value for all other numeric track types
+
+						for (let k = 0; k < valueEnd; ++k) {
+							targetTrack.values[valueStart + k] -= referenceValue[k];
+						}
 					}
 				}
 			}
+
+			targetClip.blendMode = AdditiveAnimationBlendMode;
+			return targetClip;
 		}
-
-		targetClip.blendMode = AdditiveAnimationBlendMode;
-		return targetClip;
-	}
-
-	var AnimationUtils = /*#__PURE__*/Object.freeze({
-		__proto__: null,
-		arraySlice: arraySlice,
-		convertArray: convertArray,
-		isTypedArray: isTypedArray,
-		getKeyframeOrder: getKeyframeOrder,
-		sortedArray: sortedArray,
-		flattenJSON: flattenJSON,
-		subclip: subclip,
-		makeClipAdditive: makeClipAdditive
-	});
+	};
 
 	/**
 	 * Abstract base class of interpolants over parametric samples.
@@ -27680,8 +27455,8 @@
 			if (name === undefined) throw new Error('THREE.KeyframeTrack: track name is undefined');
 			if (times === undefined || times.length === 0) throw new Error('THREE.KeyframeTrack: no keyframes in track named ' + name);
 			this.name = name;
-			this.times = convertArray(times, this.TimeBufferType);
-			this.values = convertArray(values, this.ValueBufferType);
+			this.times = AnimationUtils.convertArray(times, this.TimeBufferType);
+			this.values = AnimationUtils.convertArray(values, this.ValueBufferType);
 			this.setInterpolation(interpolation || this.DefaultInterpolation);
 		} // Serialization (in static context, because of constructor invocation
 		// and automatic invocation of .toJSON):
@@ -27697,8 +27472,8 @@
 				// by default, we assume the data can be serialized as-is
 				json = {
 					'name': track.name,
-					'times': convertArray(track.times, Array),
-					'values': convertArray(track.values, Array)
+					'times': AnimationUtils.convertArray(track.times, Array),
+					'values': AnimationUtils.convertArray(track.values, Array)
 				};
 				const interpolation = track.getInterpolation();
 
@@ -27830,8 +27605,8 @@
 				}
 
 				const stride = this.getValueSize();
-				this.times = arraySlice(times, from, to);
-				this.values = arraySlice(this.values, from * stride, to * stride);
+				this.times = AnimationUtils.arraySlice(times, from, to);
+				this.values = AnimationUtils.arraySlice(this.values, from * stride, to * stride);
 			}
 
 			return this;
@@ -27877,7 +27652,7 @@
 			}
 
 			if (values !== undefined) {
-				if (isTypedArray(values)) {
+				if (AnimationUtils.isTypedArray(values)) {
 					for (let i = 0, n = values.length; i !== n; ++i) {
 						const value = values[i];
 
@@ -27897,8 +27672,8 @@
 
 		optimize() {
 			// times or values may be shared with other tracks, so overwriting is unsafe
-			const times = arraySlice(this.times),
-						values = arraySlice(this.values),
+			const times = AnimationUtils.arraySlice(this.times),
+						values = AnimationUtils.arraySlice(this.values),
 						stride = this.getValueSize(),
 						smoothInterpolation = this.getInterpolation() === InterpolateSmooth,
 						lastIndex = times.length - 1;
@@ -27957,8 +27732,8 @@
 			}
 
 			if (writeIndex !== times.length) {
-				this.times = arraySlice(times, 0, writeIndex);
-				this.values = arraySlice(values, 0, writeIndex * stride);
+				this.times = AnimationUtils.arraySlice(times, 0, writeIndex);
+				this.values = AnimationUtils.arraySlice(values, 0, writeIndex * stride);
 			} else {
 				this.times = times;
 				this.values = values;
@@ -27968,8 +27743,8 @@
 		}
 
 		clone() {
-			const times = arraySlice(this.times, 0);
-			const values = arraySlice(this.values, 0);
+			const times = AnimationUtils.arraySlice(this.times, 0);
+			const values = AnimationUtils.arraySlice(this.values, 0);
 			const TypedKeyframeTrack = this.constructor;
 			const track = new TypedKeyframeTrack(this.name, times, values); // Interpolant argument to constructor is not saved, so copy the factory method directly.
 
@@ -28126,9 +27901,9 @@
 				let values = [];
 				times.push((i + numMorphTargets - 1) % numMorphTargets, i, (i + 1) % numMorphTargets);
 				values.push(0, 1, 0);
-				const order = getKeyframeOrder(times);
-				times = sortedArray(times, 1, order);
-				values = sortedArray(values, 1, order); // if there is a key at the first frame, duplicate it as the
+				const order = AnimationUtils.getKeyframeOrder(times);
+				times = AnimationUtils.sortedArray(times, 1, order);
+				values = AnimationUtils.sortedArray(values, 1, order); // if there is a key at the first frame, duplicate it as the
 				// last frame as well for perfect loop.
 
 				if (!noLoop && times[0] === 0) {
@@ -28203,7 +27978,7 @@
 				if (animationKeys.length !== 0) {
 					const times = [];
 					const values = [];
-					flattenJSON(animationKeys, times, values, propertyName); // empty keys are filtered out, so check again
+					AnimationUtils.flattenJSON(animationKeys, times, values, propertyName); // empty keys are filtered out, so check again
 
 					if (times.length !== 0) {
 						destTracks.push(new trackType(trackName, times, values));
@@ -28368,7 +28143,7 @@
 		if (json.times === undefined) {
 			const times = [],
 						values = [];
-			flattenJSON(json.keys, times, values, 'value');
+			AnimationUtils.flattenJSON(json.keys, times, values, 'value');
 			json.times = times;
 			json.values = values;
 		} // derived classes can define a static parse method
@@ -28497,7 +28272,7 @@
 
 	}
 
-	const DefaultLoadingManager = /*@__PURE__*/new LoadingManager();
+	const DefaultLoadingManager = new LoadingManager();
 
 	class Loader {
 		constructor(manager) {
@@ -28548,14 +28323,6 @@
 	}
 
 	const loading = {};
-
-	class HttpError extends Error {
-		constructor(message, response) {
-			super(message);
-			this.response = response;
-		}
-
-	}
 
 	class FileLoader extends Loader {
 		constructor(manager) {
@@ -28658,7 +28425,7 @@
 					});
 					return new Response(stream);
 				} else {
-					throw new HttpError(`fetch for "${response.url}" responded with ${response.status}: ${response.statusText}`, response);
+					throw Error(`fetch for "${response.url}" responded with ${response.status}: ${response.statusText}`);
 				}
 			}).then(response => {
 				switch (responseType) {
@@ -30811,6 +30578,13 @@
 					}
 				}
 			});
+		}
+		/* DEPRECATED */
+
+
+		setTexturePath(value) {
+			console.warn('THREE.ObjectLoader: .setTexturePath() has been renamed to .setResourcePath().');
+			return this.setResourcePath(value);
 		}
 
 	}
@@ -33049,7 +32823,7 @@
 
 	}
 
-	const _controlInterpolantsResultBuffer = new Float32Array(1);
+	const _controlInterpolantsResultBuffer = /*@__PURE__*/new Float32Array(1);
 
 	class AnimationMixer extends EventDispatcher {
 		constructor(root) {
@@ -33602,67 +33376,6 @@
 
 		clone() {
 			return new Uniform(this.value.clone === undefined ? this.value : this.value.clone());
-		}
-
-	}
-
-	let id = 0;
-
-	class UniformsGroup extends EventDispatcher {
-		constructor() {
-			super();
-			this.isUniformsGroup = true;
-			Object.defineProperty(this, 'id', {
-				value: id++
-			});
-			this.name = '';
-			this.usage = StaticDrawUsage;
-			this.uniforms = [];
-		}
-
-		add(uniform) {
-			this.uniforms.push(uniform);
-			return this;
-		}
-
-		remove(uniform) {
-			const index = this.uniforms.indexOf(uniform);
-			if (index !== -1) this.uniforms.splice(index, 1);
-			return this;
-		}
-
-		setName(name) {
-			this.name = name;
-			return this;
-		}
-
-		setUsage(value) {
-			this.usage = value;
-			return this;
-		}
-
-		dispose() {
-			this.dispatchEvent({
-				type: 'dispose'
-			});
-			return this;
-		}
-
-		copy(source) {
-			this.name = source.name;
-			this.usage = source.usage;
-			const uniformsSource = source.uniforms;
-			this.uniforms.length = 0;
-
-			for (let i = 0, l = uniformsSource.length; i < l; i++) {
-				this.uniforms.push(uniformsSource[i].clone());
-			}
-
-			return this;
-		}
-
-		clone() {
-			return new this.constructor().copy(this);
 		}
 
 	}
@@ -34895,7 +34608,7 @@
 	class PlaneHelper extends Line {
 		constructor(plane, size = 1, hex = 0xffff00) {
 			const color = hex;
-			const positions = [1, -1, 0, -1, 1, 0, -1, -1, 0, 1, 1, 0, -1, 1, 0, -1, -1, 0, 1, -1, 0, 1, 1, 0];
+			const positions = [1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, 1, -1, 1, 1, -1, -1, 1, 1, -1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0];
 			const geometry = new BufferGeometry();
 			geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
 			geometry.computeBoundingSphere();
@@ -34906,7 +34619,7 @@
 			this.type = 'PlaneHelper';
 			this.plane = plane;
 			this.size = size;
-			const positions2 = [1, 1, 0, -1, 1, 0, -1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0];
+			const positions2 = [1, 1, 1, -1, 1, 1, -1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1];
 			const geometry2 = new BufferGeometry();
 			geometry2.setAttribute('position', new Float32BufferAttribute(positions2, 3));
 			geometry2.computeBoundingSphere();
@@ -34920,10 +34633,13 @@
 		}
 
 		updateMatrixWorld(force) {
-			this.position.set(0, 0, 0);
-			this.scale.set(0.5 * this.size, 0.5 * this.size, 1);
+			let scale = -this.plane.constant;
+			if (Math.abs(scale) < 1e-8) scale = 1e-8; // sign does not matter
+
+			this.scale.set(0.5 * this.size, 0.5 * this.size, scale);
+			this.children[0].material.side = scale < 0 ? BackSide : FrontSide; // renderer flips side when determinant < 0; flipping not wanted here
+
 			this.lookAt(this.plane.normal);
-			this.translateZ(-this.plane.constant);
 			super.updateMatrixWorld(force);
 		}
 
@@ -35247,7 +34963,15 @@
 
 	}
 
-	const _tables = /*@__PURE__*/_generateTables();
+	const {
+		floatView: _floatView,
+		uint32View: _uint32View,
+		baseTable: _baseTable,
+		shiftTable: _shiftTable,
+		mantissaTable: _mantissaTable,
+		exponentTable: _exponentTable,
+		offsetTable: _offsetTable
+	} = /*@__PURE__*/_generateTables();
 
 	function _generateTables() {
 		// float32 to float16 helpers
@@ -35349,17 +35073,17 @@
 	function toHalfFloat(val) {
 		if (Math.abs(val) > 65504) console.warn('THREE.DataUtils.toHalfFloat(): Value out of range.');
 		val = clamp(val, -65504, 65504);
-		_tables.floatView[0] = val;
-		const f = _tables.uint32View[0];
+		_floatView[0] = val;
+		const f = _uint32View[0];
 		const e = f >> 23 & 0x1ff;
-		return _tables.baseTable[e] + ((f & 0x007fffff) >> _tables.shiftTable[e]);
+		return _baseTable[e] + ((f & 0x007fffff) >> _shiftTable[e]);
 	} // float16 to float32
 
 
 	function fromHalfFloat(val) {
 		const m = val >> 10;
-		_tables.uint32View[0] = _tables.mantissaTable[_tables.offsetTable[m] + (val & 0x3ff)] + _tables.exponentTable[m];
-		return _tables.floatView[0];
+		_uint32View[0] = _mantissaTable[_offsetTable[m] + (val & 0x3ff)] + _exponentTable[m];
+		return _floatView[0];
 	}
 
 	var DataUtils = /*#__PURE__*/Object.freeze({
@@ -35817,7 +35541,6 @@
 	exports.Uint8BufferAttribute = Uint8BufferAttribute;
 	exports.Uint8ClampedBufferAttribute = Uint8ClampedBufferAttribute;
 	exports.Uniform = Uniform;
-	exports.UniformsGroup = UniformsGroup;
 	exports.UniformsLib = UniformsLib;
 	exports.UniformsUtils = UniformsUtils;
 	exports.UnsignedByteType = UnsignedByteType;
