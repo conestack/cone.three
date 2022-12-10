@@ -1,5 +1,3 @@
-from cone.app.browser.resources import resources
-from cone.app.browser.resources import set_resource_include
 import webresource as wr
 import os
 
@@ -11,8 +9,7 @@ resources_dir = os.path.join(os.path.dirname(__file__), 'static')
 threejs_resources = wr.ResourceGroup(
     name='cone.three-threejs',
     directory=os.path.join(resources_dir, 'threejs'),
-    path='threejs',
-    group=resources
+    path='threejs'
 )
 threejs_resources.add(wr.ScriptResource(
     name='three-js',
@@ -24,8 +21,7 @@ threejs_resources.add(wr.ScriptResource(
 threejs_controls_resources = wr.ResourceGroup(
     name='cone.three-controls',
     directory=os.path.join(resources_dir, 'threejs-controls'),
-    path='threejs-controls',
-    group=resources
+    path='threejs-controls'
 )
 threejs_controls_resources.add(wr.ScriptResource(
     name='three-acrballcontrols-js',
@@ -52,8 +48,7 @@ threejs_controls_resources.add(wr.ScriptResource(
 threejs_lines_resources = wr.ResourceGroup(
     name='cone.three-lines',
     directory=os.path.join(resources_dir, 'threejs-lines'),
-    path='threejs-lines',
-    group=resources
+    path='threejs-lines'
 )
 threejs_lines_resources.add(wr.ScriptResource(
     name='three-linematerial-js',
@@ -75,8 +70,7 @@ threejs_lines_resources.add(wr.ScriptResource(
 threejs_loaders_resources = wr.ResourceGroup(
     name='cone.three-loaders',
     directory=os.path.join(resources_dir, 'threejs-loaders'),
-    path='threejs-loaders',
-    group=resources
+    path='threejs-loaders'
 )
 threejs_loaders_resources.add(wr.ScriptResource(
     name='three-objloader-js',
@@ -90,21 +84,25 @@ threejs_loaders_resources.add(wr.ScriptResource(
 ))
 
 
-def configure_resources(settings):
+def configure_resources(config, settings):
     # threejs core
-    set_resource_include(settings, 'three-js', 'authenticated')
+    config.register_resource(threejs_resources)
+    config.set_resource_include('three-js', 'authenticated')
 
     # threejs controls
-    set_resource_include(settings, 'three-acrballcontrols-js', 'authenticated')
-    set_resource_include(settings, 'three-orbitcontrols-js', 'authenticated')
-    set_resource_include(settings, 'three-trackballcontrols-js', 'authenticated')
-    set_resource_include(settings, 'three-transformcontrols-js', 'authenticated')
+    config.register_resource(threejs_controls_resources)
+    config.set_resource_include('three-acrballcontrols-js', 'authenticated')
+    config.set_resource_include('three-orbitcontrols-js', 'authenticated')
+    config.set_resource_include('three-trackballcontrols-js', 'authenticated')
+    config.set_resource_include('three-transformcontrols-js', 'authenticated')
 
     # threejs lines
-    set_resource_include(settings, 'three-linematerial-js', 'authenticated')
-    set_resource_include(settings, 'three-line-segments-2-js', 'authenticated')
-    set_resource_include(settings, 'three-line-segments-geometry-js', 'authenticated')
+    config.register_resource(threejs_lines_resources)
+    config.set_resource_include('three-linematerial-js', 'authenticated')
+    config.set_resource_include('three-line-segments-2-js', 'authenticated')
+    config.set_resource_include('three-line-segments-geometry-js', 'authenticated')
 
     # threejs loaders
-    set_resource_include(settings, 'three-objloader-js', 'authenticated')
-    set_resource_include(settings, 'three-mtlloader-js', 'authenticated')
+    config.register_resource(threejs_loaders_resources)
+    config.set_resource_include('three-objloader-js', 'authenticated')
+    config.set_resource_include('three-mtlloader-js', 'authenticated')
