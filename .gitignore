@@ -3,3 +3,8 @@ __pycache__
 /src/cone.three.egg-info/
 /node_modules/
 /package-lock.json
+/constraints-mxdev.txt
+/requirements-mxdev.txt
+/venv
+/sources/
+/.mxmake
