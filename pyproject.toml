@@ -22,7 +22,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "cone.app>1.0.99,<2.0.0",
+    "cone.app>1.0.99",
     "setuptools"
 ]
 
