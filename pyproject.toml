@@ -20,16 +20,13 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
 ]
-
 dependencies = [
     "cone.app>1.0.99",
-    "setuptools"
 ]
 
 [project.optional-dependencies]
 test = [
     "pytest",
-    "zope.testrunner"
 ]
 
 [project.urls]
