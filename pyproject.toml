@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cone.three"
-version = "0.1.0.dev0"
+version = "0.1.0"
 description = "three.js integration into cone"
 dynamic = ["readme"]
 requires-python = ">=3.10"
